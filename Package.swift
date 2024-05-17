@@ -9,7 +9,7 @@ let package = Package(
     products: [
         .library(
             name: "avif",
-            targets: ["avif"])
+            targets: ["avif", "libsharpyuv"]),
     ],
     dependencies: [
         .package(url: "https://github.com/awxkee/libaom.swift.git", "1.0.0"..<"1.1.0"),
@@ -21,6 +21,7 @@ let package = Package(
         .target(
             name: "avif",
             dependencies: ["avifc"]),
+        .binaryTarget(name: "libsharpyuv", path: "Sources/libsharpyuv.xcframework"),
         .target(name: "avifc",
                 dependencies: [.target(name: "libavif")],
                 cxxSettings: [.headerSearchPath(".")],
@@ -32,7 +33,8 @@ let package = Package(
                     .product(name: "libaom", package: "libaom.swift"),
                     .product(name: "libdav1d", package: "libdav1d.swift"),
                     .product(name: "libyuv", package: "libyuv.swift"),
-                    .product(name: "libSvtAv1Enc", package: "libsvtav1enc.swift")],
+                    .product(name: "libSvtAv1Enc", package: "libsvtav1enc.swift")
+                ],
                 publicHeadersPath: "include",
                 cSettings: [
                     .define("AVIF_CODEC_AOM_ENCODE", to: "1"),
